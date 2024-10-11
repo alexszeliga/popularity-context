@@ -5,14 +5,17 @@ namespace Tests\Unit;
 use App\Models\User;
 use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 
 class RolesTest extends TestCase
 {
-    public function testSuperAdminRoleIsAssignable(): void
+    public function testSuperAdminHasAllPermissions(): void
     {
+        $allPermissions = Permission::all()->pluck('name');
         $user = User::factory()->create();
+        $this->assertFalse($user->hasAnyPermission($allPermissions));
         $user->assignRole('super-admin');
-        // $superAdminRole = Role::where('name', 'super-admin')->sole();
+        $this->assertTrue($user->hasAllPermissions($allPermissions));
     }
 }

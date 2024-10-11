@@ -18,8 +18,12 @@ class RolesSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        //TODO: Permissions here
-        
+        Permission::create(['name' => 'create roles']);
+        Permission::create(['name' => 'create permissions']);
+        Permission::create(['name' => 'edit roles']);
+        Permission::create(['name' => 'edit permissions']);
+        Permission::create(['name' => 'edit users']); 
+               
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         $role = Role::create(['name' => 'super-admin']);
