@@ -30,4 +30,14 @@ class UserTest extends TestCase
         $this->assertTrue($user->name == "Alex Szeliga");
         $user->roles->contains($this->superAdminRole);
     }
+
+    public function testUserCanGetName(): void 
+    {
+        $user = User::where('email', 'alexszeliga@gmail.com')->first();
+        $this->assertTrue('Alex Szeliga' === $user->getName());
+        $user->name = 'Dr. Pepper';
+        $this->assertTrue('Dr. Pepper' === $user->getName());
+        $user->name = null;
+        $this->assertTrue('' === $user->getName());
+    }
 }
