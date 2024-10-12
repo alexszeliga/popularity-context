@@ -18,6 +18,7 @@ class LoginResource extends JsonResource
         return [
             'data' => [
                 'token' => $token->plainTextToken,
+                'name' => $this->getName(),
             ]
         ];
     }

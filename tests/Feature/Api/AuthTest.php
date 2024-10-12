@@ -8,18 +8,19 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 class AuthTest extends ApiTestCase
 {
-    protected $defaultUser;
+    protected $defaultUser, $basicAuthHeader;
 
     public function setUp() : void
     {
         parent::setUp();
         $this->defaultUser = User::firstWhere('email', 'alexszeliga@gmail.com');
+        $basicAuthB64 = base64_encode('alexszeliga@gmail.com:password');
+        $this->basicAuthHeader = ['Authorization' => "Basic $basicAuthB64"];
     }
 
     public function testDefaultSuperAdminCanLogin(): void
     {
-        $basicAuthB64 = base64_encode('alexszeliga@gmail.com:password');
-        $response = $this->withHeaders(['Authorization' => "Basic $basicAuthB64"])
+        $response = $this->withHeaders($this->basicAuthHeader)
                          ->get('/api/login');
         $response->assertStatus(200);
         $response->assertSeeText('token');
@@ -43,5 +44,12 @@ class AuthTest extends ApiTestCase
         $response = $this->get('/api/login');
         $response->assertStatus(401);
         $response->assertSee('Invalid credentials.');
+    }
+
+    public function testLoginResourceIncludesUserName(): void
+    {
+        $response =  $this->withHeaders($this->basicAuthHeader)
+                          ->get('/api/login');
+        $response->assertSee('Alex Szeliga');
     }
 }
