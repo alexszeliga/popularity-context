@@ -15,11 +15,17 @@ class LoginResource extends JsonResource
     public function toArray(Request $request): array
     {
         $token = $request->user()->createToken('api-login');
-        return [
-            'data' => [
+        return 
+        [
+            'data'=>
+            [
                 'token' => $token->plainTextToken,
-                'name' => $this->getName(),
-            ]
+                'name' => $request->user()->getName(),
+            ],
+            'links' => 
+            [
+                'profile' => route('user.profile'),
+            ],
         ];
     }
 }

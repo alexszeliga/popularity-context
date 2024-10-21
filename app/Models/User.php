@@ -54,4 +54,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return $this->name ?? '';
     }
+
+    public function getEmail()
+    {
+        return $this->email ?? '';
+    }
 }
