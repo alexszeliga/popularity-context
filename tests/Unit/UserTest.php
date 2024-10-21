@@ -40,4 +40,14 @@ class UserTest extends TestCase
         $user->name = null;
         $this->assertTrue('' === $user->getName());
     }
+
+    public function testUserCanGetEmail(): void
+    {
+        $user = User::where('email', 'alexszeliga@gmail.com')->first();
+        $this->assertTrue('alexszeliga@gmail.com' === $user->getEmail());
+        $user->email = 'dpepper@gmail.com';
+        $this->assertTrue('dpepper@gmail.com' === $user->getEmail());
+        $user->email = null;
+        $this->assertTrue('' === $user->getEmail());
+    }
 }
