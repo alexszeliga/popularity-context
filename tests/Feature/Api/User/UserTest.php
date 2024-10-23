@@ -24,8 +24,24 @@ class UserTest extends TestCase
     public function testProfileContainsUserName() : void
     {
         $response = $this->actingAs($this->user)
-                         ->get('/api/user');
+                         ->get(route('user.profile'));
         $response->assertJsonPath('data.name', 'Alex Szeliga');
         $response->assertJsonPath('data.email', 'alexszeliga@gmail.com');
+    }
+
+    public function testAUserCanRegister() 
+    {
+        $this->assertDatabaseCount('users', 1);
+        $response = $this->post(route('api.register'), [
+            'name' => 'Dr Pepper',
+            'email' => 'drpepper@gmail.com',
+            'password' => 'password',
+        ]);
+        $response->assertStatus(201);
+        $this->assertDatabaseCount('users', 2);
+
+        $user = User::firstWhere('email', '=', 'drpepper@gmail.com');
+
+        $this->assertEquals($user->getName(), 'Dr Pepper');
     }
 }

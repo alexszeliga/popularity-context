@@ -7,7 +7,11 @@ use App\Http\Controllers\UserController;
 
 use App\Http\Resources\User\LoginResource;
 
-Route::middleware('auth.basic')->group(function(){
+Route::middleware('guest')->group(function () {
+    Route::post('/register', [UserController::class, 'store'])->name('api.register');
+});
+
+Route::middleware('auth.basic')->group(function() {
     Route::get( '/login', fn() => new LoginResource(Auth::user()) );
 });
 
