@@ -3,7 +3,6 @@
 namespace Tests\Feature\Api\User;
 
 use App\Models\User;
-// use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
